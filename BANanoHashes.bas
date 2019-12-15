@@ -62,9 +62,16 @@ Sub Hash(hashType As String, algorithm As String) As String
 	Return res
 End Sub
 
-'use bcrypt
+'use bcrypt with a callback to get a hash
 Sub Hash1(salt As String, module As Object, methodName As String)
 	Dim newHash As Object
 	Dim cb As BANanoObject = BANano.CallBack(module, methodName, Array(newHash))
 	BANano.RunJavascriptMethod("hashpw", Array(sinput, salt, cb))
+End Sub
+
+'use bcrypt with a callback to verify a hash
+Sub Verify(oldHash As String, module As Object, methodName As String)
+	Dim res As Object
+	Dim cb As BANanoObject = BANano.CallBack(module, methodName, Array(res))
+	BANano.RunJavascriptMethod("checkpw", Array(sinput, oldHash, cb))
 End Sub
